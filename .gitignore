@@ -1,0 +1,5 @@
+src/**/*.js
+src/Main/token.tsx
+.tmp
+dist
+node_modules

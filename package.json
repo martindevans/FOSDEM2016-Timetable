@@ -1,0 +1,19 @@
+{
+  "name": "gintt",
+  "version": "0.0.0",
+  "description": "Gantt Charts For Github",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^1.6.2",
+    "gulp-typescript": "^2.9.2",
+    "browserify": "^12.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "del": "^2.0.2",
+    "jquery": "^2.1.4"
+  }
+}
