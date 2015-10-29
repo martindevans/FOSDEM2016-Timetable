@@ -17,16 +17,14 @@ export class Label extends React.Component<ILabelProps, ILabelState> {
     render () {
         let label_style = {
             height: "1.1em",
+            width: "1.1em",
             float: "left",
             background: "#" + this.props.label.color,
-            "max-width": "100%",
-            "text-overflow": "ellipsis"
+            "border-radius": "0.2em"
         };
 
         return (
-            <div style={label_style} >
-              <span><a href={this.props.label.url}>{this.props.label.name}</a></span>
-            </div>
+            <div style={label_style} title={this.props.label.name} ></div>
         );
     }
 }

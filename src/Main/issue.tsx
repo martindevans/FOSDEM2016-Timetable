@@ -17,9 +17,15 @@ export class Issue extends React.Component<IIssueProps, IIssueState> {
 
     render () {
         let style = {
-            width: "150px",
-            height: "150px",
-            float: "left",
+            width: "calc(100% - 5px)",
+            height: "calc(100% - 5px)",
+            margin: "2px",
+            border: "black solid 2px",
+            "border-radius": "6px",
+            "text-align": "center",
+            "text-overflow": "ellipsis",
+            overflow: "hidden",
+            "white-space": "nowrap"
         };
 
         let labels = this.props.issue.labels.map(label => {
@@ -28,7 +34,7 @@ export class Issue extends React.Component<IIssueProps, IIssueState> {
 
         return (
             <div style={style} >
-              <span> {this.props.issue.title} </span>
+              {this.props.issue.title}
               {labels}
             </div>
         );

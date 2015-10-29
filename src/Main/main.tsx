@@ -5,6 +5,9 @@ import * as React from 'react';
 import * as $ from 'jquery';
 import {IIssue, ILabel} from './models';
 import {Issue} from './issue';
+
+//If you have cloned from the repo this file will not exist. Create a file called token.tsx which exports a field called 'githubToken' containing a github access token
+//Hack until oauth login is implemented
 import {githubToken} from './token';
 
 export interface IMainState {
@@ -44,23 +47,16 @@ export class Main extends React.Component<IMainProps, IMainState> {
 
     render () {
         let issues = this.state.issues.map(issue => {
-            return <Issue issue={issue} ></Issue>
+            let style = {
+                width: "150px",
+                height: "50px",
+                float: "left",
+            };
+
+            return <div style={style}><Issue issue={issue} ></Issue></div>
         });
         return (<div>
             {issues}
         </div>);
-
-        //var todoItems = this.state.todoList.map(item => {
-        //    return <TodoItem key={item.key} item={item} onRemove={this.removeItem} ></TodoItem>;
-        //});
-        //return (
-        //    <div>
-        //        <div>
-        //            <input type="text" placeholder="input new item" value={this.state.newItem.description} onChange={this.changeName} />
-        //            <button onClick={this.addItem} >add</button>
-        //        </div>
-        //        <ul>{todoItems}</ul>
-        //    </div>
-        //);
     }
 }
