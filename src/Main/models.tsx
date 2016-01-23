@@ -1,17 +1,8 @@
-export interface IIssue {
-    url: string;
-    html_url: string;
-    id: number;
-    number: number;
-    title: string;
-    //user: IUser;
-    labels: ILabel[];
-    state: string;
-    created_at: string;
-}
-
-export interface ILabel {
-    url: string;
-    name: string;
-    color: string;
+export interface IEvent {
+    uid: string,
+    start: number,
+    end: number,
+    name: string,
+    url: string,
+    location: string
 }

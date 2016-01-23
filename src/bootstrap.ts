@@ -2,4 +2,5 @@
 
 import * as React from 'react';
 import {Main} from './Main/main';
-React.render(React.createElement(Main), document.getElementById('main'));
+
+React.render(React.createElement(Main, { xcal: "/xcal" }), document.getElementById('main'));

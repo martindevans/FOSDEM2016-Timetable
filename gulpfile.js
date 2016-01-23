@@ -11,8 +11,8 @@ var project = ts.createProject('tsconfig.json', {typescript: typescript});
 
 gulp.task('through', function () {
 	return gulp
-    .src(['src/index.html'])
-    .pipe(gulp.dest('dist' ) );
+    .src(['src/static/**'])
+    .pipe(gulp.dest('dist'));
 });
 
 

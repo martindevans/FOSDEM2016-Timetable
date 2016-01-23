@@ -3,40 +3,52 @@
 
 import * as React from 'react';
 import * as $ from 'jquery';
-import {IIssue, ILabel} from './models';
-import {Issue} from './issue';
-
-//If you have cloned from the repo this file will not exist. Create a file called token.tsx which exports a field called 'githubToken' containing a github access token
-//Hack until oauth login is implemented
-import {githubToken} from './token';
+import {Timeline} from './timeline';
+import {IEvent} from './models';
 
 export interface IMainState {
-    issues?: IIssue[];
+    events: IEvent[]
 }
 
 export interface IMainProps {
-    user: string,
-    repo: string
+    xcal: string
 }
 
 export class Main extends React.Component<IMainProps, IMainState> {
 
-    state: IMainState = { issues: [] };
+    state: IMainState = { events: [] };
 
     constructor () {
         super();
     }
 
+    parse_xcal(xml : string) : IEvent[] {
+        let parsed = $($.parseXML(xml));
+
+        let events : IEvent[] = [];
+        parsed.find("vevent").each(function(index, vevent) {
+            var jq_vevent = $(vevent);
+            let evt : IEvent = {
+                uid: jq_vevent.find("uid").text(),
+                start: Date.parse(jq_vevent.find("start").text()),
+                end: Date.parse(jq_vevent.find("end").text()),
+                name: jq_vevent.find("title").text(),
+                url: jq_vevent.find("url").text(),
+                location: jq_vevent.find("location").text()
+            };
+
+            events.push(evt);
+        })
+
+        return events;
+    }
+
     refresh() {
         $.ajax({
-            url: `https://api.github.com/repos/martindevans/Heist/issues`,
-            beforeSend: function (xhr){
-                xhr.setRequestHeader('Authorization', "BASIC " + btoa("martindevans:" + githubToken));
-            },
-            success: function(results: IIssue[]) {
-                this.setState({
-                    issues: results
-                });
+            url: this.props.xcal,
+            type: 'GET',
+            success: function(xml:string) {
+                this.setState({ events: this.parse_xcal(xml) });
             }.bind(this)
         });
     }
@@ -46,17 +58,12 @@ export class Main extends React.Component<IMainProps, IMainState> {
     }
 
     render () {
-        let issues = this.state.issues.map(issue => {
-            let style = {
-                width: "150px",
-                height: "50px",
-                float: "left",
-            };
 
-            return <div style={style}><Issue issue={issue} ></Issue></div>
-        });
-        return (<div>
-            {issues}
-        </div>);
+        if (this.state != null && this.state.events != null) {
+            return (<Timeline events={this.state.events} width={0.000075} height={100} ></Timeline>);
+        } else {
+            return (<div>Loading...</div>);
+        }
+
     }
 }
