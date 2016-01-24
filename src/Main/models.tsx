@@ -4,5 +4,6 @@ export interface IEvent {
     end: number,
     name: string,
     url: string,
-    location: string
+    location: string,
+    description: string
 }

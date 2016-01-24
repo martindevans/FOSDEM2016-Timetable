@@ -12,6 +12,7 @@
     ],
     "files": [
         "./src/bootstrap.ts",
+        "./src/Main/event.tsx",
         "./src/Main/main.tsx",
         "./src/Main/models.tsx",
         "./src/Main/timeline.tsx"

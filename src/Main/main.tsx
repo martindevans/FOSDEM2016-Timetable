@@ -7,7 +7,8 @@ import {Timeline} from './timeline';
 import {IEvent} from './models';
 
 export interface IMainState {
-    events: IEvent[]
+    events: IEvent[],
+    attendance: { string: boolean }
 }
 
 export interface IMainProps {
@@ -16,7 +17,10 @@ export interface IMainProps {
 
 export class Main extends React.Component<IMainProps, IMainState> {
 
-    state: IMainState = { events: [] };
+    state: IMainState = {
+        events: [],
+        attendance: {} as {string: boolean}
+    };
 
     constructor () {
         super();
@@ -34,7 +38,8 @@ export class Main extends React.Component<IMainProps, IMainState> {
                 end: Date.parse(jq_vevent.find("end").text()),
                 name: jq_vevent.find("title").text(),
                 url: jq_vevent.find("url").text(),
-                location: jq_vevent.find("location").text()
+                location: jq_vevent.find("location").text(),
+                description: jq_vevent.find("description").text()
             };
 
             events.push(evt);
@@ -44,11 +49,16 @@ export class Main extends React.Component<IMainProps, IMainState> {
     }
 
     refresh() {
+        this.setState({
+            events: this.state.events,
+            attendance: JSON.parse(localStorage.getItem("event-attendance") || "{}")
+        });
+
         $.ajax({
             url: this.props.xcal,
             type: 'GET',
             success: function(xml:string) {
-                this.setState({ events: this.parse_xcal(xml) });
+                this.setState({ events: this.parse_xcal(xml), attendance: this.state.attendance });
             }.bind(this)
         });
     }
@@ -60,7 +70,7 @@ export class Main extends React.Component<IMainProps, IMainState> {
     render () {
 
         if (this.state != null && this.state.events != null) {
-            return (<Timeline events={this.state.events} width={0.000075} height={100} ></Timeline>);
+            return (<Timeline events={this.state.events} width={0.000085} height={100} attendance={this.state.attendance} ></Timeline>);
         } else {
             return (<div>Loading...</div>);
         }
