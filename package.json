@@ -15,5 +15,8 @@
     "vinyl-source-stream": "^1.1.0",
     "del": "^2.0.2",
     "jquery": "^2.1.4"
+  },
+  "dependencies": {
+    "react": "^0.14.6"
   }
 }
