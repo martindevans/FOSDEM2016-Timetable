@@ -36,18 +36,28 @@ export class Timeline extends React.Component<ITimelineProps, ITimelineState> {
     }
 
     render () {
-        let locations = this.distinct(this.props.events.map(e => { return e.location; }));
+		let hide = window.location.search.slice(1) == "hide";
+		
+		var visible_events : IEvent[] = [];
+		for (var index in this.props.events) {
+			let evt = this.props.events[index];
+			if (this.props.attendance[evt.uid] as boolean || !hide) {
+				visible_events.push(evt);
+			}
+		}
+	
+        let locations = this.distinct(visible_events.map(e => { return e.location; }));
         let locationIndex = Object.keys(locations) as string[];
 
         let minTime = Infinity;
-        for (let i = 0; i < this.props.events.length; i++) {
-            if (this.props.events[i].start < minTime) {
-                minTime = this.props.events[i].start;
+        for (let i = 0; i < visible_events.length; i++) {
+            if (visible_events[i].start < minTime) {
+                minTime = visible_events[i].start;
             }
         }
-        minTime = Math.max(new Date().getTime());
+        minTime = Math.max(minTime, new Date().getTime());
 
-        let events = this.props.events.map(event => {
+        let events = visible_events.map(event => {
 
             let self = this;
             let click = function(evt : any) {
