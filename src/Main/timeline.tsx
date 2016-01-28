@@ -45,6 +45,7 @@ export class Timeline extends React.Component<ITimelineProps, ITimelineState> {
                 minTime = this.props.events[i].start;
             }
         }
+        minTime = Math.max(new Date().getTime());
 
         let events = this.props.events.map(event => {
 
@@ -59,7 +60,7 @@ export class Timeline extends React.Component<ITimelineProps, ITimelineState> {
 
                 //Trigger redraw
                 self.setState({} as ITimelineState);
-                localStorage.setItem("event-attendance", JSON.stringify(self.props.attendance))
+                localStorage.setItem("event-attendance", JSON.stringify(self.props.attendance));
             }
 
             let top = locationIndex.indexOf(event.location) * this.props.height;
